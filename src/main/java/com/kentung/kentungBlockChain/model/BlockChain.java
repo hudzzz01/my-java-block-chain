@@ -1,6 +1,7 @@
 package com.kentung.kentungBlockChain.model;
 
 import com.kentung.kentungBlockChain.Exception.InvalidBlockException;
+import com.kentung.kentungBlockChain.Exception.InvalidNode;
 import com.kentung.kentungBlockChain.model.dto.NewBlockDTO;
 import com.kentung.kentungBlockChain.utils.Mapper;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,11 +18,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static com.kentung.kentungBlockChain.utils.Mapper.mapToStringAlltransactions;
 
 @Builder
 @Getter
+@Setter
 @Component
 @NoArgsConstructor
 public class BlockChain {
@@ -27,6 +32,55 @@ public class BlockChain {
     private static String difficulty = "11";
     private static List<Block> blocks = new ArrayList<>();
     private static String reward = "10";
+
+
+
+
+    private static List<Node> nodes = new ArrayList<>();
+    //todo : create node feature
+
+    //todo : swab block
+    public static void setBlocks(ArrayList<Block> newBlocks){
+        blocks =  newBlocks;
+    }
+
+    public static Node addNode(String address){
+        Node node = Node.builder()
+                .id(UUID.randomUUID().toString())
+                .index(nodes.size())
+                .url(address)
+                .build();
+
+        nodes.add(node);
+
+        return node;
+    }
+
+
+
+    public static Node removeNode(int index){
+        if(nodes.isEmpty()){
+            throw new InvalidNode("node is empty");
+        }
+
+        int sizeNodeBeforeRemove = nodes.size();
+        Node savedNode = nodes.get(index);
+        nodes.remove(savedNode);
+        int sizeNodeAfterRemove = nodes.size();
+        if(sizeNodeBeforeRemove == sizeNodeAfterRemove){
+            throw new InvalidNode("fail remove node");
+        }
+
+
+
+        System.out.println("berhasil menghapus node " + savedNode.getId());
+        return savedNode;
+    }
+
+    public static List<Node> readAllNode(){
+        return nodes;
+    }
+
 
 
 
@@ -144,6 +198,7 @@ public class BlockChain {
         String dataForCheckGenesisBlock = "0" + blocks.get(index).getTransactions() + String.valueOf(index) + blocks.get(index).getNonce();
         byte[] hashGenesisCheck = DigestUtils.sha256(dataForCheckGenesisBlock);
         byte [] savedHashGenesis = blocks.get(index).getBlockHashWithNonce();
+
         System.out.println("this block index  genesis - > " + index );
         System.out.println("saved hash gensis -> " + new String(savedHashGenesis));
         System.out.println("verify hash genesis -> " + new String(hashGenesisCheck));
@@ -168,7 +223,17 @@ public class BlockChain {
         // todo : validate all block
         for (Block block : blocks) {
 
-            if(blocks.get(index).getBlockHashWithNonce() != blocks.get(nextIndex).getPreviousBlockHashWithNonce()) {
+            byte[] byteArray1 = blocks.get(index).getBlockHashWithNonce();
+            byte[] byteArray2 = blocks.get(nextIndex).getPreviousBlockHashWithNonce();
+            System.out.println(byteArray1);
+            System.out.println(byteArray2);
+
+            String base64String1 = Base64.encodeBase64String(byteArray1);
+            String base64String2 = Base64.encodeBase64String(byteArray2);
+
+            if(!base64String1.equals(base64String2)) {
+                System.out.println(blocks.get(index).getBlockHashWithNonce());
+                System.out.println(blocks.get(nextIndex).getPreviousBlockHashWithNonce());
                 throw new InvalidBlockException("invalid block");
             }
 

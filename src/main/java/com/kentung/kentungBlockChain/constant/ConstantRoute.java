@@ -10,4 +10,7 @@ public class ConstantRoute {
     //Transactions
     public static final String TRANSACTION_ROUTE = API + VERSION + "/transaction";
 
+    //Node
+    public static final String NODE_ROUTE = API + VERSION + "/node";
+
 }

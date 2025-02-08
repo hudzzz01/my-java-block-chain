@@ -1,6 +1,7 @@
 package com.kentung.kentungBlockChain.model;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.codec.cli.Digest;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -11,6 +12,8 @@ import java.util.Objects;
 
 @Setter
 @Getter
+@Data
+@NoArgsConstructor
 public class Block {
     private byte[] previousBlockHashWithNonce;
     private byte[] blockHashWithNonce;

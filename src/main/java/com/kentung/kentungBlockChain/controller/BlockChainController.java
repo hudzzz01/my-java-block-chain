@@ -1,6 +1,7 @@
 package com.kentung.kentungBlockChain.controller;
 
 import com.kentung.kentungBlockChain.constant.ConstantRoute;
+import com.kentung.kentungBlockChain.model.Node;
 import com.kentung.kentungBlockChain.model.dto.CommondResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.AllBlockResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.MineRequest;
@@ -13,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = ConstantRoute.BLOCKCHAIN_ROUTE)
@@ -44,6 +47,12 @@ public class BlockChainController {
     @GetMapping(path = "/validate")
     ResponseEntity<ValidateResponse> validateAllBlockController(){
         ValidateResponse response = blockChainService.validateBlockChain();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping(path = "/sync")
+    ResponseEntity<Boolean> sycnAllBlock(){
+        Boolean response = blockChainService.sycnBlockChain();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
