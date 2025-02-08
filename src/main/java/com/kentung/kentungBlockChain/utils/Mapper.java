@@ -9,18 +9,12 @@ import java.util.List;
 
 public class Mapper {
     public static String mapToStringAlltransactions(List<Transaction> transactions){
-        String transactionsString = "";
+        StringBuilder transactionsString = new StringBuilder();
 
-        int i = 1;
         for(Transaction transaction : transactions){
-            transactionsString += transaction.toString();
-            if(transactions.size() == i){
-                break;
-            }
-            transactionsString += ",";
-
+            transactionsString.append(transaction.toString());
         }
-        return transactionsString;
+        return transactionsString.toString();
     }
 
     public static Transaction mappTransactionRequestToTransaction(TransactionRequest transactionRequest){

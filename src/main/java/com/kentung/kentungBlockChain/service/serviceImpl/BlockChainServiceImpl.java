@@ -7,6 +7,7 @@ import com.kentung.kentungBlockChain.model.dto.CommondResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.AllBlockResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.MineRequest;
 import com.kentung.kentungBlockChain.model.dto.blockChain.MinningResponse;
+import com.kentung.kentungBlockChain.model.dto.blockChain.ValidateResponse;
 import com.kentung.kentungBlockChain.service.BlockChainService;
 import org.springframework.stereotype.Service;
 
@@ -27,12 +28,15 @@ public class BlockChainServiceImpl implements BlockChainService {
         BlockChain.initGenesisBlock();
         return CommondResponse.builder()
                 .message("Genesis Block Telah dibuat")
+                .data(BlockChain.GetAllBlock().get(0))
                 .build();
     }
 
     @Override
     public MinningResponse mineNewBlock(MineRequest mineRequest) {
+        System.out.println("Prosses mining sedang berjalan");
         Block newBlock = BlockChain.minningBlock(TransactionsListTemoprary.getAllTransaction(),mineRequest.getMinerAddress());
+        TransactionsListTemoprary.clearAllTransaction();
         return  MinningResponse.builder()
                 .message("Berhasil menambang Block Baru")
                 .newBlock(newBlock)
@@ -42,8 +46,18 @@ public class BlockChainServiceImpl implements BlockChainService {
     @Override
     public AllBlockResponse getAllBlock() {
         List<Block> blocks = BlockChain.GetAllBlock();
+        System.out.println();
+        System.out.println("All block");
         return AllBlockResponse.builder()
                 .blocks(blocks)
+                .build();
+    }
+
+    @Override
+    public ValidateResponse validateBlockChain() {
+        BlockChain.validate(BlockChain.GetAllBlock());
+        return ValidateResponse.builder()
+                .isValidBlockChain(true)
                 .build();
     }
 }

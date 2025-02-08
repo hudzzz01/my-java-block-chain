@@ -7,6 +7,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class CommondResponse {
+public class CommondResponse <T> {
+    int statusCode;
     String message;
+    T data;
 }

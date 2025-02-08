@@ -5,6 +5,7 @@ import com.kentung.kentungBlockChain.model.dto.CommondResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.AllBlockResponse;
 import com.kentung.kentungBlockChain.model.dto.blockChain.MineRequest;
 import com.kentung.kentungBlockChain.model.dto.blockChain.MinningResponse;
+import com.kentung.kentungBlockChain.model.dto.blockChain.ValidateResponse;
 import com.kentung.kentungBlockChain.service.BlockChainService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -38,6 +39,12 @@ public class BlockChainController {
     ResponseEntity<AllBlockResponse> getAllBlock(){
         AllBlockResponse allBlockResponse = blockChainService.getAllBlock();
         return ResponseEntity.status(HttpStatus.OK).body(allBlockResponse);
+    }
+
+    @GetMapping(path = "/validate")
+    ResponseEntity<ValidateResponse> validateAllBlockController(){
+        ValidateResponse response = blockChainService.validateBlockChain();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
