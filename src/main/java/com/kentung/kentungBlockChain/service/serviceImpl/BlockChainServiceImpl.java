@@ -84,6 +84,7 @@ public class BlockChainServiceImpl implements BlockChainService {
     public boolean sycnBlockChain() {
 
         List<Node> nodes = nodeService.readAllNode();
+        if(nodes.isEmpty()) throw new InvalidNode("nodes is empety");
 
         String host = "http://localhost:9090";
 
