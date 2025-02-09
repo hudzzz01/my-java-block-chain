@@ -1,7 +1,7 @@
 # Kentung Blockchain
 
 ## 📌 Deskripsi Proyek
-Kentung Blockchain adalah implementasi dasar dari blockchain menggunakan **Spring Boot**. Proyek ini memungkinkan Anda untuk **memulai blockchain**, **menambang blok baru**, dan **mengelola transaksi** dalam blockchain.
+Kentung Blockchain adalah implementasi dasar dari blockchain menggunakan **Spring Boot**. Proyek ini memungkinkan Anda untuk **memulai blockchain**, **menambang blok baru**,**node management** dan **mengelola transaksi** dalam blockchain.
 
 ## 🚀 Fitur Utama
 - **Memulai blockchain** dengan genesis block
